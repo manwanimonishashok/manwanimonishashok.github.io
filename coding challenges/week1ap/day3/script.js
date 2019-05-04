@@ -25,4 +25,4 @@ var convert = function(number) {
     return finalWord;
 }
 
-console.log(convert(99));
+console.log("99 in words is:"+convert(99));
