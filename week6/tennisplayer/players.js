@@ -1,43 +1,36 @@
 'use strict';
 
-var express = require("express");
-
+var express = require ("express");
 
 var bodyParser = require("body-parser");
 
 var app = express();
 
-
 app.set("view engine", "hbs");
 
+app.use(bodyParser.urlencoded({ extended: false  }));
 
-app.use(bodyParser.urlencoded({ extended: false }));
+var PLAYERS=[];
 
-
-
-var DB = [];
-
-app.get("/", function(request, response){
-    
+app.get("/players", function (request, response){
     var data = {
-        db: DB,
-        
-    }
-    response.render("players.hbs", data); 
+      players: PLAYERS,
+      userName : "Monish",
+    };
+   response.render("players.hbs", data);
 });
 
-app.post("/players", function(request, response){
+app.post("/players", function(request, response) {
+    var playerName = request.body.playerName;
+    var playerLocation = request.body.playerLocation;
+    var details = {};
+    details.players = playerName;
+    details.location = playerLocation;
+    PLAYERS.push(details);
     
-       
-        var data = {
-            name: request.body.name,
-            location: request.body.location,
-            
-        };
     
-        DB.push(data);
-            
-        response.redirect("/"); 
+   
+    response.redirect("/players");
 });
 
 app.listen(3000);
